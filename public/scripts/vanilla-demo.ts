@@ -1,49 +1,63 @@
 /* -------------------------------------------------------------------------- */
-/* Vanilla Programming                                                        */
+/* React Programming Preview                                                  */
+/* -------------------------------------------------------------------------- */
+import React from "../lib/react.js";
+import ReactDOM from "../lib/react-dom/client.js";
+
+// React version
+// console.log('React version =', React.version);
+
+// ReactDOM/client version
+// console.log('ReactDOM version =', ReactDOM.version);
+
+/* -------------------------------------------------------------------------- */
+/* Creating React Element Node                                                */
 /* -------------------------------------------------------------------------- */
 
-import { Greeting } from "./greeting";
+// React API
+// React.createElement(type, props, ...children)
 
-// 인사말 리스트(목록) 배열
-const greetingList = Object.values(Greeting); // values
-const greetingKeyList = Object.keys(Greeting); // keys
-const greetingEntryList = Object.entries(Greeting); // [[key, value], ...]
+let heading = React.createElement(
+  "h1",
+  {},
+  "안녕!" // children
+);
 
-// JavaScript Markup and Event Binding & Mount DOM Element Node
+// TypeScript -> JavaScript
 
-/* -------------------------------------------------------------------------- */
-/* Creating DOM Element Node                                                  */
-/* -------------------------------------------------------------------------- */
+// 트렌스파일러(Transpiler)
+// JSX(JS for XML like syntax) -> JavaScript Code (Babel / TypeScript)
+// heading = <h1>안녕!</h1>;
 
-// 제어 대상 생성 o / 참조 x
-// const heading = document.querySelector('h1');
-const heading = document.createElement("h1");
-heading.textContent = greetingList.at(0) as string;
+const changeButton = React.createElement(
+  "button",
+  {
+    type: "button",
+  },
+  "인사말" // children
+);
 
-// 제어 버튼 생성 o / 참조 x
-// const changeButton = document.querySelector('[type="button"]');
-const changeButton = document.createElement("button");
-changeButton.setAttribute("type", "button");
-changeButton.textContent = "인사말";
+const parentElement = React.createElement(
+  "div",
+  { role: "group" },
+  // ...children === React.ReactNode[]
+  heading, // child 1
+  changeButton // child 2
+);
 
-console.group("DOM 요소 노드");
-console.dir(heading);
-console.dir(changeButton);
-console.groupEnd();
+console.dir(parentElement);
 
-// 버튼에 이벤트 바인딩
-changeButton?.addEventListener("click", handleChangeGreetMessage);
+// console.group('React 요소 노드');
+// console.dir(heading);
+// console.dir(changeButton);
+// console.groupEnd();
 
-// 이벤트 핸들러
-function handleChangeGreetMessage() {
-  // 랜덤 인사말 설정
-  const message = greetingList[Math.floor(Math.random() * greetingList.length)];
-  // 화면에 렌더링
-  heading && (heading.textContent = message);
-}
+// ReactDOM API (for Web)
+// ReactDOM.createRoot(domElement) -> ReactDOMRoot { render, unmount }
+const rootElement = document.getElementById("react"); // HTMLDivElement
+const reactDomRoot = ReactDOM.createRoot(rootElement); // ReactDOMRoot
 
-// 마운트(mount)할 DOM 엘리먼트 노드를 참조
-const app = document.getElementById("vanilla");
+// ReactDOMRoot.render(React.ReactElement)
+reactDomRoot.render(parentElement);
 
-// 동적으로 생성된 엘리먼트 노드를 참조한 DOM 노드에 마운트
-app?.prepend(heading, changeButton);
+// React Native API (for Mobile Native)
